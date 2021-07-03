@@ -43,14 +43,14 @@ std::vector<point> floodfill(std::vector<std::vector<int8_t>> map, const point s
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
 
     std::vector<point> visited;
-    if (!map[start.Y][start.X]) {
+    if (!map[start.X][start.Y]) {
         return visited;
     }
     
     std::stack<point> frontier;
     
     frontier.emplace(start);
-    map[start.Y][start.X] = false;
+    map[start.X][start.Y] = false;
     visited.emplace_back(start);
     while (!frontier.empty()) {
         const auto c = frontier.top();
@@ -63,9 +63,9 @@ std::vector<point> floodfill(std::vector<std::vector<int8_t>> map, const point s
             point { c.X - 1, c.Y     }
         }) {
             if(!isValid(next, N, M)) continue;
-            if (map[next.Y][next.X]) {
+            if (map[next.X][next.Y]) {
                 frontier.emplace(next);
-                map[next.Y][next.X] = false;
+                map[next.X][next.Y] = false;
                 visited.emplace_back(next);
             }
         }
@@ -80,7 +80,7 @@ int main() {
     size_t M = 0;
     std::cin >> M;
     
-    std::vector<std::vector<int8_t>> map(M, std::vector<int8_t>(N, false));
+    std::vector<std::vector<int8_t>> map(N, std::vector<int8_t>(M, false));
     inputmap(std::cin, map);
     //outputmap(std::cout, map);
     
@@ -93,7 +93,7 @@ int main() {
         const auto island = floodfill(map, point { static_cast<int>(X), static_cast<int>(Y) });
         max_square = std::max(max_square, island.size());
         for (const auto & dot : island) {
-            map[dot.Y][dot.X] = false;
+            map[dot.X][dot.Y] = false;
         }
         ++current_position;
     }
