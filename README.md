@@ -1,1 +1,2 @@
-# rtsoft_practice_1_2021
+# Tenyaev Oleg
+![Task](task.jpg)
