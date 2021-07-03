@@ -1,7 +1,6 @@
-#include <iostream>
+#include "example.hpp"
 
 int main() {
-    std::cout << "Hello world!" << std::endl;
-    return 0;
+    return fake_main();
 }
 

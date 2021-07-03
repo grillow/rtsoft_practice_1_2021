@@ -1,5 +1,7 @@
 # Project
 build/
+bin/
+.cache/
 
 # Prerequisites
 *.d
