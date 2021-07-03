@@ -38,8 +38,8 @@ constexpr inline bool isValid(const pos & point, const int borderX, const int bo
 
 // I am forced to use int8_t instead of bool since stl decided to break std::vector<bool>
 std::vector<pos> floodfill(std::vector<std::vector<int8_t>> map, const pos start) {
-    const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be not 0");
-    const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be not 0");
+    const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
+    const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
 
     std::vector<pos> visited;
     if (!map[start.j][start.i]) {
