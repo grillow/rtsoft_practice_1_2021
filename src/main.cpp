@@ -2,7 +2,6 @@
 #include <vector>
 #include <queue>
 #include <stack>
-#include <set>
 
 
 void inputmap(std::istream & in, std::vector<std::vector<int8_t>> & map) {
@@ -18,7 +17,6 @@ void inputmap(std::istream & in, std::vector<std::vector<int8_t>> & map) {
 void outputmap(std::ostream & out, std::vector<std::vector<int8_t>> & map) {
     for (auto & row : map) {
         for (auto & e : row) {
-            //out << (e ? 1 : 0) << ' ';
             out << static_cast<int16_t>(e) << ' ';
         }
         out << '\n';
@@ -30,9 +28,6 @@ void outputmap(std::ostream & out, std::vector<std::vector<int8_t>> & map) {
 struct pos {
     int i;
     int j;
-    friend constexpr bool operator< (const pos & l, const pos & r) {
-        return (l.i < r.i) || ((l.i == r.i) && (l.j < r.j));
-    }
 };
 
 
@@ -42,11 +37,11 @@ constexpr inline bool isValid(const pos & point, const int borderX, const int bo
 
 
 // I am forced to use int8_t instead of bool since stl decided to break std::vector<bool>
-std::set<pos> floodfill(std::vector<std::vector<int8_t>> map, const pos start) {
+std::vector<pos> floodfill(std::vector<std::vector<int8_t>> map, const pos start) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be not 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be not 0");
 
-    std::set<pos> visited;
+    std::vector<pos> visited;
     if (!map[start.j][start.i]) {
         return visited;
     }
@@ -55,7 +50,7 @@ std::set<pos> floodfill(std::vector<std::vector<int8_t>> map, const pos start) {
     
     frontier.emplace(start);
     map[start.j][start.i] = false;
-    visited.emplace(start);
+    visited.emplace_back(start);
     while (!frontier.empty()) {
         const auto c = frontier.top();
         frontier.pop();
@@ -70,31 +65,37 @@ std::set<pos> floodfill(std::vector<std::vector<int8_t>> map, const pos start) {
             if (map[next.j][next.i]) {
                 frontier.emplace(next);
                 map[next.j][next.i] = false;
-                visited.emplace(next);
+                visited.emplace_back(next);
             }
         }
     }
-    std::cout << "removed that island:" << std::endl;
-    outputmap(std::cout, map);
     return visited;
 }
 
 
 int main() {
-    size_t n = 0;
-    std::cin >> n;
-    size_t m = 0;
-    std::cin >> m;
+    size_t N = 0;
+    std::cin >> N;
+    size_t M = 0;
+    std::cin >> M;
     
-    std::vector<std::vector<int8_t>> map(m, std::vector<int8_t>(n, false));
+    std::vector<std::vector<int8_t>> map(M, std::vector<int8_t>(N, false));
     inputmap(std::cin, map);
-    outputmap(std::cout, map);
-    std::cout << floodfill(map, {2, 0}).size() << std::endl;
-    std::cout << floodfill(map, {7, 0}).size() << std::endl;
-    std::cout << floodfill(map, {1, 2}).size() << std::endl;
-    std::cout << floodfill(map, {4, 2}).size() << std::endl;
-    std::cout << floodfill(map, {8, 3}).size() << std::endl;
-    std::cout << floodfill(map, {7, 6}).size() << std::endl;
-
+    //outputmap(std::cout, map);
+    
+    const size_t total = N * M;
+    size_t max_square = 0;
+    size_t current_position = 0;
+    while (current_position != total) {
+        const size_t X = current_position % N;
+        const size_t Y = current_position / N;
+        const auto island = floodfill(map, pos { static_cast<int>(X), static_cast<int>(Y) });
+        max_square = std::max(max_square, island.size());
+        for (const auto & dot : island) {
+            map[dot.j][dot.i] = false;
+        }
+        ++current_position;
+    }
+    std::cout << max_square << std::endl;
     return 0;
 }
