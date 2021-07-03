@@ -7,12 +7,13 @@
 void inputmap(std::istream & in, std::vector<std::vector<int8_t>> & map) {
     for (auto & row : map) {
         for (auto & e : row) {
-            int i = 0;
+            int16_t i = 0;
             in >> i;
             e = static_cast<int8_t>(i);
         }
     }
 }
+
 
 void outputmap(std::ostream & out, std::vector<std::vector<int8_t>> & map) {
     for (auto & row : map) {
@@ -25,46 +26,46 @@ void outputmap(std::ostream & out, std::vector<std::vector<int8_t>> & map) {
 }
 
 
-struct pos {
-    int i;
-    int j;
+struct point {
+    int X;
+    int Y;
 };
 
 
-constexpr inline bool isValid(const pos & point, const int borderX, const int borderY) {
-        return (point.i >= 0 && point.j >= 0 && point.i < borderX && point.j < borderY);
+constexpr inline bool isValid(const point & pos, const int borderX, const int borderY) {
+    return (pos.X >= 0 && pos.Y >= 0 && pos.X < borderX && pos.Y < borderY);
 }
 
 
 // I am forced to use int8_t instead of bool since stl decided to break std::vector<bool>
-std::vector<pos> floodfill(std::vector<std::vector<int8_t>> map, const pos start) {
+std::vector<point> floodfill(std::vector<std::vector<int8_t>> map, const point start) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
 
-    std::vector<pos> visited;
-    if (!map[start.j][start.i]) {
+    std::vector<point> visited;
+    if (!map[start.Y][start.X]) {
         return visited;
     }
     
-    std::stack<pos> frontier;
+    std::stack<point> frontier;
     
     frontier.emplace(start);
-    map[start.j][start.i] = false;
+    map[start.Y][start.X] = false;
     visited.emplace_back(start);
     while (!frontier.empty()) {
         const auto c = frontier.top();
         frontier.pop();
 
         for (const auto & next : {
-            pos { c.i    , c.j + 1 },
-            pos { c.i    , c.j - 1 },
-            pos { c.i + 1, c.j     },
-            pos { c.i - 1, c.j     }
+            point { c.X    , c.Y + 1 },
+            point { c.X    , c.Y - 1 },
+            point { c.X + 1, c.Y     },
+            point { c.X - 1, c.Y     }
         }) {
             if(!isValid(next, N, M)) continue;
-            if (map[next.j][next.i]) {
+            if (map[next.Y][next.X]) {
                 frontier.emplace(next);
-                map[next.j][next.i] = false;
+                map[next.Y][next.X] = false;
                 visited.emplace_back(next);
             }
         }
@@ -89,10 +90,10 @@ int main() {
     while (current_position != total) {
         const size_t X = current_position % N;
         const size_t Y = current_position / N;
-        const auto island = floodfill(map, pos { static_cast<int>(X), static_cast<int>(Y) });
+        const auto island = floodfill(map, point { static_cast<int>(X), static_cast<int>(Y) });
         max_square = std::max(max_square, island.size());
         for (const auto & dot : island) {
-            map[dot.j][dot.i] = false;
+            map[dot.Y][dot.X] = false;
         }
         ++current_position;
     }
