@@ -1,9 +1,10 @@
 #pragma once
+#include "table.hpp"
 #include <iostream>
 #include <vector>
 
 
-void inputmap(std::istream & in, std::vector<std::vector<int8_t>> & map) {
+void inputmap(std::istream & in, table & map) {
     for (auto & row : map) {
         for (auto & e : row) {
             int16_t i = 0;
@@ -14,7 +15,7 @@ void inputmap(std::istream & in, std::vector<std::vector<int8_t>> & map) {
 }
 
 
-void outputmap(std::ostream & out, std::vector<std::vector<int8_t>> & map) {
+void outputmap(std::ostream & out, table & map) {
     for (auto & row : map) {
         for (auto & e : row) {
             out << static_cast<int16_t>(e) << ' ';

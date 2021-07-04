@@ -1,5 +1,6 @@
 #pragma once
 #include "point.hpp"
+#include "table.hpp"
 #include <stdexcept>
 #include <vector>
 #include <stack>
@@ -7,7 +8,7 @@
 #include <set>
 
 
-size_t floodfill(std::vector<std::vector<int8_t>> & map, const point start) {
+size_t floodfill(table & map, const point start) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
 
@@ -43,7 +44,7 @@ size_t floodfill(std::vector<std::vector<int8_t>> & map, const point start) {
 }
 
 
-std::set<point> floodfill_multithreaded(const std::vector<std::vector<int8_t>> & map, const point start) {
+std::set<point> floodfill_multithreaded(const table & map, const point start) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
     

@@ -3,7 +3,7 @@
 
 
 // efficient single-threaded
-size_t solve_single(std::vector<std::vector<int8_t>> map) {
+size_t solve_single(table map) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
     

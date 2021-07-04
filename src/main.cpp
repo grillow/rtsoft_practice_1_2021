@@ -12,7 +12,7 @@ int main() {
     std::cin >> M;
     
     // I am forced to use int8_t instead of bool since stl decided to break std::vector<bool>
-    std::vector<std::vector<int8_t>> map(M, std::vector<int8_t>(N, false));
+    table map(M, std::vector<int8_t>(N, false));
     inputmap(std::cin, map);
     //outputmap(std::cout, map);
    

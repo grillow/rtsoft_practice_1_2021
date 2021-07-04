@@ -11,7 +11,7 @@
 
 
 // worker function
-size_t worker(const std::vector<std::vector<int8_t>> & map, const size_t begin, const size_t end) {
+size_t worker(const table & map, const size_t begin, const size_t end) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
     
@@ -42,7 +42,7 @@ size_t worker(const std::vector<std::vector<int8_t>> & map, const size_t begin, 
 
 
 // multi-threaded
-size_t solve_multi(const std::vector<std::vector<int8_t>> & map, const size_t CPU) {
+size_t solve_multi(const table & map, const size_t CPU) {
     const size_t M = map.size();    if (M == 0) throw std::runtime_error("M should be greater than 0");
     const size_t N = map[0].size(); if (N == 0) throw std::runtime_error("N should be greater than 0");
         
