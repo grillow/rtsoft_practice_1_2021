@@ -1,4 +1,4 @@
-FROM gcc:10
+FROM gcc:11
 RUN apt-get update && apt-get install -y cmake
 COPY . /usr/src/myapp
 WORKDIR /usr/src/myapp
