@@ -1,5 +1,6 @@
-# Tenyaev Oleg
+# RTSoft task | Tenyaev Oleg
 ![Task](task.jpg)
+### Run
 ```
 mkdir -p build && cd build && cmake .. && make && cd ..
 cat test_TEMP.txt | ./bin/task1
